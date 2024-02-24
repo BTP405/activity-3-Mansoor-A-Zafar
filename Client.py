@@ -1,10 +1,10 @@
 import socket
 import pickle
 import multiprocessing
-import Q1  # Import from the correct module or path
-import Q2  # Import from the correct module or path
-import Q3  # Import from the correct module or path
-import shared_funcs  # Import from the correct module or path
+import Q1  
+import Q2  
+import Q3  
+import tasks 
 
 HOST = 'localhost'
 PORT = 12345
