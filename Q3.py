@@ -4,7 +4,6 @@
 #Messages sent by clients should be pickled before transmission. The server should receive pickled messages, unpickle them, and broadcast them to all connected clients.
 
 import Q1;
-import Q2;
 """
 * This function will broadcast to the current Client the response from the Server
 * coming from any client
