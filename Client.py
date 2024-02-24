@@ -1,26 +1,32 @@
-import socket;
-import Q1;
+import socket
+import pickle
+import multiprocessing
+import Q1  # Import from the correct module or path
+import Q2  # Import from the correct module or path
+import Q3  # Import from the correct module or path
+import shared_funcs  # Import from the correct module or path
 
-MAX_RECV = 1024;
-
-def run_client(file):
-    client_socket  = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-    server_address = ('localhost', 12345);
-    client_socket.connect(server_address);
-
-    try:
-        #change this to file_path later
-        message = Q1.serializeFiles("test.txt");
-        client_socket.sendall(message);
-        #Doesn't need to recieve anything from the serverr
-    except:
-        print(f'Err, something went wrong :(');
-    finally:
-        client_socket.close();
-
-def main():
-    file = __file__.replace(f'Client.py', "me.txt");
-    run_client(file);
+HOST = 'localhost'
+PORT = 12345
 
 if __name__ == "__main__":
-    main();
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect((HOST, PORT))
+    process = None
+
+    try:
+        Q1.question1_client(client_socket)  # Send file transfer request first
+        Q2.question2_client(client_socket, shared_funcs.my_task, (1, 2))
+        process = multiprocessing.Process(target=Q3.handle_server, args=(client_socket,))
+        process.start()
+
+        while True:
+            message = input()
+            pickled_message = pickle.dumps(message)
+            client_socket.sendall(pickled_message)
+
+    except KeyboardInterrupt:
+        print("Closing client")
+        if process is not None:
+            process.terminate()  # Terminate Q3 process as well
+        client_socket.close()

@@ -1,28 +1,38 @@
-import pickle;
-import socket;
-import Q1;
+import multiprocessing
+import socket
+import Q1  # Import from the correct module or path
+import Q2  # Import from the correct module or path
+import Q3  # Import from the correct module or path
 
-MAX_RECV = 1024;
+HOST = 'localhost'
+PORT = 12345
 
-def run_server():
-    # Socket will use -> IPv4 & TCP
-    server_socket  = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-    server_address = ('localhost', 12345);
-    server_socket.bind(server_address);
-    server_socket.listen(1);
-
-    print(f'Listening for incoming connections...');
-
+def main(server_socket, workers, lock):
     while True:
-        #Accept the connection
-        client_socket, client_address = server_socket.accept();
-        try:
-            data = Q1.deserializeFiles(client_socket.recv(MAX_RECV)); #is a unpickled file object
-            Q1.saveToDisk("res.txt", data); 
-        except:
-            print(f'Erorr, something went wrong');
-        finally:
-            client_socket.close();
+        conn, address = server_socket.accept()
+        Q1.question1_server(conn)
+        Q2.question2_server(conn)
+        with lock:
+            workers.append(conn)
+        process = multiprocessing.Process(target=Q3.handle_client, args=(conn, workers, lock))
+        process.start()
 
 if __name__ == "__main__":
-    run_server();
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((HOST, PORT))
+    server_socket.listen(1)
+    print(f"Server listening on {HOST}:{PORT}")
+
+    manager = multiprocessing.Manager()
+    workers = manager.list()
+    lock = manager.Lock()  # Add a lock for synchronization
+
+    try:
+        main(server_socket, workers, lock)
+    except:
+        print("Closing Server...")
+    finally:
+        with lock:  # Acquire lock before closing connections
+            for worker_conn in workers:
+                worker_conn.close()
+        server_socket.close()
