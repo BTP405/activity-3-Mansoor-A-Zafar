@@ -1,8 +1,8 @@
 import multiprocessing
 import socket
-import Q1  # Import from the correct module or path
-import Q2  # Import from the correct module or path
-import Q3  # Import from the correct module or path
+import Q1  
+import Q2  
+import Q3  
 
 HOST = 'localhost'
 PORT = 12345
