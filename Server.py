@@ -1,11 +1,11 @@
-import multiprocessing
-import socket
-import Q1  # Import from the correct module or path
-import Q2  # Import from the correct module or path
-import Q3  # Import from the correct module or path
+import multiprocessing;
+import socket;
+import Q1;
+import Q2;
+import Q3;
 
-HOST = 'localhost'
-PORT = 12345
+HOST = 'localhost';
+PORT = 12345;
 
 def main(server_socket, workers, lock):
     while True:

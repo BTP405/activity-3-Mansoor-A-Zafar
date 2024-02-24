@@ -29,7 +29,6 @@ def question2_client(client_socket, func, args):
 """
 def question2_server(client_socket):
     task = client_socket.recv(Q1.MAX_RECV);
-    print(f'got task: {task}')
     task_function, args = Q1.deserializeFiles(task);
     result = task_function(*args);
     client_socket.sendall(Q1.serializeFiles(result, False));

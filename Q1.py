@@ -76,7 +76,7 @@ def question1_client(client_socket):
     file = input("Enter the file name\n> ");
     pickled_file = serializeFiles(file);
     client_socket.send(pickled_file);
-    print("!!! Success    !!!");
+    print(f'{client_socket.recv(MAX_RECV).decode()}');
 
 """
 * This function determines the process on the Server's side for the File Transfer
@@ -91,6 +91,7 @@ def question1_server(client_socket):
     server_file = input("Enter the Receiving File\n> ");
     pickled_file = client_socket.recv(1024);
     saveToDisk(server_file, deserializeFiles(pickled_file));
+    client_socket.sendall("Successful Trasnfer of files".encode())
     print("!!! Success    !!!");
 #Requirements:
 #The client should provide the file path of the file to be transferred.
