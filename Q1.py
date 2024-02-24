@@ -92,10 +92,6 @@ def question1_server(client_socket):
     pickled_file = client_socket.recv(1024);
     saveToDisk(server_file, deserializeFiles(pickled_file));
     print("!!! Success    !!!");
-
-
-
-
 #Requirements:
 #The client should provide the file path of the file to be transferred.
 #The server should specify the directory where the received file will be saved.
