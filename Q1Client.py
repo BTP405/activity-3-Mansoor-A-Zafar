@@ -6,7 +6,7 @@ PORT = 12345
 def question_one(client_socket):
     print(f'!!! Question 1 !!!');
     file = input("Enter the file name\n> ");
-    pickled_file = Shared.serializeFiles(file);
+    pickled_file = Shared.serializeFiles(file, True);
     client_socket.send(pickled_file);
     print(f'{client_socket.recv(Shared.MAX_RECV).decode()}');
 
