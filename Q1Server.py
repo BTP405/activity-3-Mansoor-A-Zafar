@@ -3,6 +3,9 @@ import Shared;
 HOST = "localhost"
 PORT = 12345
 
+"""
+* Open the new file and dump the content into it 
+"""
 def saveToDisk(new_file, data):
     with open(new_file, "wb") as f:
         try:
@@ -10,11 +13,15 @@ def saveToDisk(new_file, data):
         except Exception as e:
             print(f'could not pickle.dump(data, f) into new file {e}')
 
-
+"""
+* Take input for the file the server wants to save the content from the client to
+* save the file to disk with the destination file and unpicked-object of the clients response
+* Send to the client that the transfer was successful
+"""
 def question_one(client_socket):
     print("!!! Question 1 !!!");
     server_file = input("Enter the Receiving File\n> ");
-    pickled_file = client_socket.recv(1024);
+    pickled_file = client_socket.recv(Shared.MAX_RECV);
     saveToDisk(server_file, Shared.deserializeFiles(pickled_file));
     client_socket.sendall("Successful Trasnfer of files".encode())
     print("!!! Success    !!!");

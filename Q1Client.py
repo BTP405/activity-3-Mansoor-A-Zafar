@@ -3,6 +3,11 @@ import Shared;
 HOST = "localhost"
 PORT = 12345
 
+"""
+* Let the client enter what file they're sending over
+* Send a pickled-object of the file 
+* Recieve the Server's reponse that it was sent
+"""
 def question_one(client_socket):
     print(f'!!! Question 1 !!!');
     file = input("Enter the file name\n> ");
