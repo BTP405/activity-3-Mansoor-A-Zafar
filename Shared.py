@@ -60,7 +60,9 @@ def saveToDisk(new_file, data):
         except Exception as e:
             print(f'could not pickle.dump(data, f) into new file {e}')
 
-
+"""
+* Dummy functions that can be sent over from Question 2
+"""
 def add(x, y):
     return x + y
 
